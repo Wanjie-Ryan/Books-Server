@@ -37,6 +37,16 @@ app.post("/bookdetails", (req, res) => {
   });
 });
 
+app.delete("/deletebook/:id", (req, res) => {
+  const bookId = req.params.id;
+
+  const q = "DELETE FROM books WHERE id= ?";
+  db.query(q, [bookId], (err, data) => {
+    if (err) return res.status(500).json({ err });
+    return res.status(201).json({ message: "Book has been deleted", data });
+  });
+});
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
