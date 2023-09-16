@@ -50,7 +50,7 @@ app.delete("/deletebook/:id", (req, res) => {
 app.put("/updatebook/:id", (req, res) => {
   const bookId = req.params.id;
 
-  const q = "UPDATE books SET `title= ?, `desc` =? `cover` =? WHERE id =?";
+  const q = "UPDATE books SET `title`= ?, `desc` =? `cover` =? WHERE id =?";
   const values = [req.body.title, req.body.desc, req.body.cover];
   db.query(q, [...values, bookId], (err, data) => {
     if (err) return res.status(500).json({ err });
