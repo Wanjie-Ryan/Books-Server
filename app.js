@@ -3,8 +3,10 @@ const app = express()
 const port = 3003
 const mysql = require('mysql2')
 require('dotenv').config();
+const cors = require('cors')
 
-
+app.use(express.json())
+app.use(cors())
 
 
 const db = mysql.createConnection({
@@ -24,6 +26,19 @@ app.get('/allbooks', (req,res)=>{
         if(err) return res.json(err)
         return res.json(data)
     })
+})
+
+app.post('/bookdetails', (req,res)=>{
+
+    const q = 'INSERT INTO books(`title`, `desc`, `cover`) VALUES (?)'
+    const values = [req.body.title, req.body.desc, req.body.cover]
+
+    db.query(q,[values],(err,data)=>{
+        if(err) return res.status(500).json({err})
+        return res.status(201).json({message:'Book has been created',values})
+
+    })
+
 })
 
 
